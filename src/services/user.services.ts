@@ -62,8 +62,16 @@ class UserService {
         if (userHashedPassword !== user.password) {
             throw new Error('Incorrect password')
         }
-        const token = JWT.sign({id:user?.id} , SECRET , {expiresIn:'1h'})
+        const token = JWT.sign({ id: user?.id }, SECRET, { expiresIn: '1h' })
         return token;
+    }
+
+    public static decodJWTtoken(token: string) {
+        return JWT.verify(token, SECRET)
+    }
+
+    public static getUserById(id: string) {
+        return prismaClient.user.findUnique({ where: { id } })
     }
 }
 
