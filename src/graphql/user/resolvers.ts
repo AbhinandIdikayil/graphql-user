@@ -1,9 +1,19 @@
+import UserService, { CreateUserPayload } from "../../services/user.services"
+
 const queries = {
-    hello:() =>  'hiii'
+    hello: () => 'hiii',
+    getUserToken: async (parent: any, payload: { email: string, password: string }) => {
+        const token = await UserService.getUserToken({
+            email: payload?.email,
+            password: payload?.password
+        })
+        return token
+    }
 }
 const mutation = {
-    createUser:(parent:any,{firstName, lastName, email,}:{firstName:String , lastName:String, email:String}) => {
-        return {lastName, firstName, email}
+    createUser: async (parent: any, payload: CreateUserPayload) => {
+        const data = await UserService.createUser(payload)
+        return data
     }
 }
 
