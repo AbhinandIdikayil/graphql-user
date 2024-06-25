@@ -31,7 +31,6 @@ class UserService {
         const salt = randomBytes(32).toString("hex");
         const hashedPassword = UserService.generateHash(salt, password)
         try {
-
             return await prismaClient.user.create({
                 data: {
                     firstName,
@@ -41,7 +40,6 @@ class UserService {
                     password: hashedPassword
                 }
             })
-
         } catch (error) {
             console.log(error)
         }
@@ -66,8 +64,8 @@ class UserService {
         return token;
     }
 
-    public static decodJWTtoken(token: string) {
-        return JWT.verify(token, SECRET)
+    public static async decodJWTtoken(token: string) {
+        return await JWT.verify(token, SECRET)
     }
 
     public static getUserById(id: string) {
